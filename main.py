@@ -28,7 +28,7 @@ user_location = 0
 dati_inviati = 0
 # funzione che gestisce il comando /start
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Ciao! Inserisci la tua via e il sobborgo separati da una virgola.")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Ciao! Sono un bot che predice il costo di una casa nella città di Perth. Quando verrà chiesto di inserire un dati in numero bisogna inserire un numero intero. Inserisci la tua via e il sobborgo separati da una virgola.")
     context.user_data['dati_inviati'] = 0
 
 # funzione che gestisce i messaggi di testo
@@ -38,24 +38,24 @@ def text_message(update, context):
         via, sobborgo = text.split(',')
         context.user_data['via'] = via.strip()
         context.user_data['sobborgo'] = sobborgo.strip()
-        context.bot.send_message(chat_id=update.effective_chat.id, text="Quante camere ha la tua casa?")
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Inserisci il numero di camere che ha la tua casa")
         context.user_data['dati_inviati'] += 1
     elif context.user_data['dati_inviati'] == 1:
         numcam = int(update.message.text)
         context.user_data['camere'] = numcam
-        context.bot.send_message(chat_id=update.effective_chat.id, text="Quanti bagni ha la tua casa?")
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Inserisci il numero di bagni che ha la tua casa?")
         context.user_data['dati_inviati'] += 1
     elif context.user_data['dati_inviati'] == 2:
         numbagn = int(update.message.text)
         context.user_data['bagni'] = numbagn
-        context.bot.send_message(chat_id=update.effective_chat.id, text="Quanti garage ha la tua casa?")
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Inserisci il numero di garage che ha la tua casa?")
         context.user_data['dati_inviati'] += 1
     elif context.user_data['dati_inviati'] == 3:
         numgarage = update.message.text
         if numgarage.isdigit():
             context.user_data['garage'] = int(numgarage)
             context.bot.send_message(chat_id=update.effective_chat.id,
-                                     text="Inserisci i mq catastali e quelli calpestabili dell'abitazione")
+                                     text="Inserisci i mq catastali e quelli calpestabili dell'abitazione separati dalla virgola")
             context.user_data['dati_inviati'] += 1
         else:
             context.bot.send_message(chat_id=update.effective_chat.id, text="Inserisci un numero intero.")
@@ -68,7 +68,7 @@ def text_message(update, context):
             context.bot.send_message(chat_id=update.effective_chat.id, text="Inserire anno di costruzione")
             context.user_data['dati_inviati'] += 1
         else:
-            context.bot.send_message(chat_id=update.effective_chat.id, text="Inserisci la virgola troia !.")
+            context.bot.send_message(chat_id=update.effective_chat.id, text="Inserisci la virgola.")
     elif context.user_data['dati_inviati'] == 5:
         build = update.message.text
         if build.isdigit():
@@ -82,7 +82,7 @@ def text_message(update, context):
         if distcentro.isdigit():
             context.user_data['distanza'] = int(distcentro)
             context.bot.send_message(chat_id=update.effective_chat.id,
-                                     text="Inserisci il nome e la distanza della stazione più vicina")
+                                     text="Inserisci il nome e la distanza della stazione più vicina separati dalla virgola")
             context.user_data['dati_inviati'] += 1
         else:
             context.bot.send_message(chat_id=update.effective_chat.id, text="Devi inserire un numero intero.")
@@ -93,7 +93,7 @@ def text_message(update, context):
             context.user_data['nomestazione'] = neastn.strip()
             context.user_data['distanzastazione'] = neastndist.strip()
             context.bot.send_message(chat_id=update.effective_chat.id,
-                                     text="Inserisci data dell'ultima vendita della casa")
+                                     text="Inserisci anno dell'ultima vendita della casa")
             context.user_data['dati_inviati'] += 1
         else:
             context.bot.send_message(chat_id=update.effective_chat.id, text="Non hai inserito la virgola.")
@@ -111,7 +111,7 @@ def text_message(update, context):
             context.user_data['codicepostale'] = int(postcode)
             #keyboard = [[InlineKeyboardButton("Invia posizione", request_location=True)]]
             #reply_markup = InlineKeyboardMarkup(keyboard)
-            context.bot.send_message(chat_id=update.effective_chat.id, text="Per favore, invia la tua latitudine.")
+            context.bot.send_message(chat_id=update.effective_chat.id, text="Inserisci la tua latitudine.")
             context.user_data['dati_inviati'] += 1
         else:
             context.bot.send_message(chat_id=update.effective_chat.id, text="Devi inserire un numero intero.")
@@ -119,13 +119,13 @@ def text_message(update, context):
         user_location = update.message.text
         context.user_data['latitude'] = int(user_location)
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text="Inserisci la longitudine")
+                                 text="Inserisci la tua longitudine")
         context.user_data['dati_inviati'] += 1
     elif context.user_data['dati_inviati'] == 11:
         longitude = update.message.text
         context.user_data['longitude'] = int(longitude)
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text="Inserisci il nome e la distanza della scuola più vicina")
+                                 text="Inserisci il nome e la distanza della scuola più vicina separati dalla virgola")
         context.user_data['dati_inviati'] += 1
     elif context.user_data['dati_inviati'] == 12:
         scuolaa = update.message.text
